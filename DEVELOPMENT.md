@@ -212,6 +212,12 @@ The v1 contract is the `.xlsx` Count-It writes, plus a straightforward workbook 
 
 ## 8. Work plan
 
+v1 is M0 through M5, in this order. Count-It is the second Retro-Office codebase. Implementation starts after Write-It v1 has been lived with. The next milestone starts when the current one's done line is true. Live with the whole set before adding a function. The tag at M5 is `v0.1.0`.
+
+Each milestone is a branch `feature/mN-short-name` from `master`. A milestone that owns a file format, a grid operation, or a formula brings a headless offline test for that slice. The CHECK harness is the one the other guests use. Lint covers `src/` only.
+
+The sections above are the specification. This section is the order of work. [brand/window.png](brand/window.png) is the chrome target at M0. The household numbers and `=AVG(B2:B4)` arrive with the milestones that own values and formulas.
+
 | Milestone | Done when |
 |---|---|
 | **M0 — Window** | Menus, toolbars, formula bar, name box, empty grid, one sheet tab, About. Matches the sketch. |
@@ -220,6 +226,72 @@ The v1 contract is the `.xlsx` Count-It writes, plus a straightforward workbook 
 | **M3 — Formulas** | The function set above. The bar shows `AVG`. The file stores `AVERAGE`. Named ranges. Several sheets. |
 | **M4 — Arrange and print** | Sort, autofilter, one column or pie chart written into the `.xlsx`, print with grid and headings. |
 | **M5 — Package** | `debian/`, `scripts/release.sh` → `.deb`, tarball, AppImage. Tag `v0.1.0`. |
+
+### M0 — Window
+
+The Meson tree, the gtkmm window, and `scripts/lint.sh`. No workbook on disk.
+
+- Menus in order: File, Edit, View, Insert, Format, Tools, Data, Help, with the mnemonics from the window section. Items are visible. Commands that need a workbook are insensitive. Save stays sensitive.
+- Standard toolbar, then the format toolbar through alignment, then the number-format combo showing General. The combo’s formats wait for M2.
+- Formula bar under that toolbar: name box, `fx`, and the entry. The entry does not commit yet.
+- An empty grid with column letters, row numbers, and one sheet tab, Sheet1. Arrow keys move the selection. The name box and the status cell follow it, starting at A1. Gridlines are on.
+- Title `Count-It - Untitled`. First launch 960×700. The ini remembers `window-width` and `window-height`.
+- Status message, then the sheet name, then the cell, then the zoom.
+- About Count-It: name, version, one sentence, the Unlicense, Close.
+- Close (Ctrl+W) and Exit (Ctrl+Q). The right-click menu starts with Cut, Copy, Paste.
+
+**Done when** the line in the table is true and the window matches [brand/window.png](brand/window.png) with an empty grid.
+
+### M1 — File
+
+Values round-trip. Typing into a cell waits until M2, so this milestone is opened and saved workbooks, not the editor.
+
+- New, Open, Save, and Save As write a `.xlsx` of cell values, with libarchive and libxml2. One sheet. A formula is not stored yet. The grid paints the stored values.
+- Dirty state is a trailing `*` on the title. Closing a dirty workbook asks Save, Don’t Save, Cancel, with Save as the default.
+- Export writes CSV of the displayed values, one sheet. Import lays CSV values onto a sheet. Export is a different command from Save.
+- Open Recent, up to eight names, tooltip the full path, and the sentence “That file is missing.” Options… can set the recent-file count to 4, 8, or 12.
+
+**Done when** the M1 line in the table is true. A headless test writes values, reads them back from the `.xlsx`, exports the displayed CSV, and imports that CSV onto a sheet.
+
+### M2 — Grid
+
+- Edit a cell in the grid and from the formula bar. Enter commits and moves the selection down. Esc cancels. A committed literal is a value, not a formula.
+- Fill down, series fill, and the fill handle.
+- Number, currency, date, time, percent, and text formats, from Number Format… and from the format-toolbar combo (General, Number, Currency, Date, Percent, Text).
+- Fonts, borders, alignment, wrap, and merged cells. A new workbook starts at Sans 11. No font colour. Options… gains the default font family and size.
+- Comments. Insert → Comment. The comment is a comments part in the workbook.
+- Find and Replace, one dialog, in the locked field order, with “Look in formulas” present and idle until M3.
+- The `.xlsx` from M1 gains these formats, the merge, and the comment.
+
+**Done when** the M2 line in the table is true. A headless test round-trips a formatted, merged, commented sheet, and checks fill down and a series fill.
+
+### M3 — Formulas
+
+The function set in the formulas section: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`, `IF`, `ROUND`, `DATE`, `TODAY`, `YEAR`, `MONTH`, and `DAY`.
+
+- A formula starts with `=`. The bar shows `AVG`. The file stores `AVERAGE`. Typing `AVERAGE` rewrites to `AVG` on commit. `AVG` is the arithmetic mean only: add the numbers, divide by how many numbers there are, skip text and blanks.
+- The formula is stored as text beside the last calculated value. Dependents recalculate when a value they read changes.
+- Named ranges. The name box shows a name when the selection is that range, and choosing a name selects it.
+- Several sheets. Insert → Sheet. Sheet tabs switch the grid. The status bar names the current sheet.
+- “Look in formulas” searches the stored formula text.
+
+**Done when** the M3 line in the table is true. A headless test calculates each function, including `=AVG` over a range that contains a blank and a text cell, writes `AVERAGE` into the `.xlsx`, and reads that file back onto the bar as `AVG`.
+
+### M4 — Arrange and print
+
+- Data → Sort… and Data → Autofilter. The autofilter is stored in the workbook.
+- Insert → Chart…. One chart, a single column series or a single pie, written as one chart part.
+- Print… opens the system print dialog and can include gridlines and headings. Page Setup… sets paper, orientation, and margins.
+
+**Done when** the M4 line in the table is true. A headless test round-trips a sort, an autofilter, and both the column chart and the pie chart in the `.xlsx`.
+
+### M5 — Package
+
+- `debian/`, a desktop file for `org.gmgauthier.CountIt`, and `scripts/release.sh`.
+- The script produces the source tarball, the amd64 `.deb`, and the AppImage. The desktop `Name=` is the AppImage’s name.
+- Tag `v0.1.0` after `meson test` and lint are green.
+
+**Done when** the three artifacts exist for `0.1.0` and the tag points at that commit. Live with M0 through M5 before adding a function. `.xls`, `.ods`, `.gnumeric`, pivot tables, and VBA stay out of this tag.
 
 ## 9. Traps
 

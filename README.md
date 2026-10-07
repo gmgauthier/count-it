@@ -12,13 +12,13 @@ LCOS itself: [https://github.com/BryanLunduke/LCOS](https://github.com/BryanLund
 
 ## Status
 
-**Specification.** No release yet. The plan is [DEVELOPMENT.md](DEVELOPMENT.md). v1 is milestones M0 through M5. The package tag is `v0.1.0`.
+**Specification.** No release yet. The specification and the M0–M5 milestone plan are in [DEVELOPMENT.md](DEVELOPMENT.md). The package tag is `v0.1.0`.
 
 Save writes a simple `.xlsx`. Export writes CSV of the displayed values.
 
 | Doc | What |
 |---|---|
-| [DEVELOPMENT.md](DEVELOPMENT.md) | Specification, window, `.xlsx`, formulas, milestones M0–M5 |
+| [DEVELOPMENT.md](DEVELOPMENT.md) | Specification, window, `.xlsx`, formulas, and the M0–M5 milestone plan |
 
 ## License
 
