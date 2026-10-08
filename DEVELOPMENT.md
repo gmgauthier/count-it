@@ -10,7 +10,7 @@ Repos: https://gitea.scriptorium/gmgauthier/count-it (origin), https://github.co
 
 ## Status (2026-10-07)
 
-**Specification.** This repository holds the plan. Source begins at M0, after Write-It v1 has been lived with. v1 is M0 through M5. Live with that set before adding a function. Tag `v0.1.0` at M5.
+**Specification.** This repository holds the plan. Source begins at M0, after Write-It 1.0 has been lived with. 1.0 is M0 through M5. Live with that release before adding a function. Tag `v1.0.0` at M5.
 
 The 960×700 first-launch mockup is [brand/window.png](brand/window.png). The sample workbook in that picture is `household.xlsx`. The formula bar shows `B6` and `=AVG(B2:B4)`.
 
@@ -35,7 +35,7 @@ Retro-Office is three applications with one window language: Write-It (`write-it
 
 LCOS already ships AbiWord and Gnumeric. The gap this suite fills is coherence. Study Gnumeric. Do not fork it, and do not shell out to `ssconvert`. Gnumeric is GPL. The house license is the Unlicense. Its weight sits in the function library and the import filters.
 
-Write-It is the first codebase. This plan is the second. Show-It waits until Count-It v1 has been lived with.
+Write-It is the first codebase. This plan is the second. Show-It waits until Count-It 1.0 has been lived with.
 
 A calculator stays galculator. Count-It is a sheet. Organized notes stay in the Ephemeris Notepad.
 
@@ -212,7 +212,7 @@ The v1 contract is the `.xlsx` Count-It writes, plus a straightforward workbook 
 
 ## 8. Work plan
 
-v1 is M0 through M5, in this order. Count-It is the second Retro-Office codebase. Implementation starts after Write-It v1 has been lived with. The next milestone starts when the current one's done line is true. Live with the whole set before adding a function. The tag at M5 is `v0.1.0`.
+1.0 is M0 through M5, in this order. Count-It is the second Retro-Office codebase. Implementation starts after Write-It 1.0 has been lived with. The next milestone starts when the current one's done line is true. Live with that release before adding a function. M5 cuts `v1.0.0`.
 
 Each milestone is a branch `feature/mN-short-name` from `master`. A milestone that owns a file format, a grid operation, or a formula brings a headless offline test for that slice. The CHECK harness is the one the other guests use. Lint covers `src/` only.
 
@@ -225,7 +225,7 @@ The sections above are the specification. This section is the order of work. [br
 | **M2 — Grid** | Edit, fill down, series fill, formats, fonts, borders, alignment, wrap, merge, comments. |
 | **M3 — Formulas** | The function set above. The bar shows `AVG`. The file stores `AVERAGE`. Named ranges. Several sheets. |
 | **M4 — Arrange and print** | Sort, autofilter, one column or pie chart written into the `.xlsx`, print with grid and headings. |
-| **M5 — Package** | `debian/`, `scripts/release.sh` → `.deb`, tarball, AppImage. Tag `v0.1.0`. |
+| **M5 — 1.0** | `debian/`, `scripts/release.sh` → `.deb`, tarball, AppImage. Tag `v1.0.0` and publish it. |
 
 ### M0 — Window
 
@@ -285,13 +285,13 @@ The function set in the formulas section: `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`, `
 
 **Done when** the M4 line in the table is true. A headless test round-trips a sort, an autofilter, and both the column chart and the pie chart in the `.xlsx`.
 
-### M5 — Package
+### M5 — 1.0
 
 - `debian/`, a desktop file for `org.gmgauthier.CountIt`, and `scripts/release.sh`.
 - The script produces the source tarball, the amd64 `.deb`, and the AppImage. The desktop `Name=` is the AppImage’s name.
-- Tag `v0.1.0` after `meson test` and lint are green.
+- Tag `v1.0.0` after `meson test` and lint are green. Publish the tag and the three artifacts to Gitea and GitHub.
 
-**Done when** the three artifacts exist for `0.1.0` and the tag points at that commit. Live with M0 through M5 before adding a function. `.xls`, `.ods`, `.gnumeric`, pivot tables, and VBA stay out of this tag.
+**Done when** `v1.0.0` is tagged and the three artifacts are on both remotes. Live with that release before adding a function. `.xls`, `.ods`, `.gnumeric`, pivot tables, and VBA stay out of 1.0.
 
 ## 9. Traps
 
